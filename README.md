@@ -1,45 +1,36 @@
 # vue-editable
 
-基于vuejs的快速可编辑插件,QQ讨论群: 240319632。
-
- 
+Allow inline edition for vuejs.
 
 ![](http://ww1.sinaimg.cn/large/823603acgw1ez9njhopgwg20dv07iq61.gif)
  
 
-# 引入插件
-```
-var VueEditable= require('./plugins/vue-editable.js');
-Vue.use(VueEditable);
+# Usage
 
 ```
-# 组件上应用
-
-```
-<template>
-    <table>
-    <tr v-for="user in data">
-        <td class="text center" @dblclick="editable($event,'name',user)">{{user['name']}}</td>
+<table id="app">
+    <tr v-for="user in users">
+        <td @dblclick="editable($event, user, 'firstname')">{{user.firstname}}</td>
+        <td @dblclick="editable($event, user, 'lastname')">{{user.lastname}}</td>
     </tr>
-    </table>
-</template>
+</table>
+
+<script src="js/vue.js"></script>
+<script src="js/vue-editable.js"></script>
 
 <script>
-module.exports = {
-    methods:{
-        /*
-            e     :事件
-            field :字段，用于告诉服务端要更新哪个字段
-            user  :列表中某一行数据
-         */
-        editable:function(e,field,user){
-            var that=this;
-            that.$editable(e,function(value){
-                // 这里做ajax请求
-                //如果数据没有被修改这个回调方法不会执行
-            });
-        }
-    }
-}
+Vue.use(VueEditable);
+
+var app = new Vue({ 
+    el: '#app', 
+    data: {...},
+    methods: {
+        editable: function(evt, user, key) {
+            this.$editable(evt, function(value){
+                user[key] = value;
+            });         
+        },
+    },
+});
 </script>
 ```
