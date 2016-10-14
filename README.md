@@ -28,6 +28,7 @@ var app = new Vue({
         editable: function(evt, user, key) {
             this.$editable(evt, function(value){
                 user[key] = value;
+                // ajax update...
             });         
         },
     },
